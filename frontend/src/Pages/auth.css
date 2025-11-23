@@ -1,0 +1,78 @@
+.auth-page {
+  background: url center/cover no-repeat;
+  min-height: 100vh;
+  padding-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.auth-box {
+  background: white;
+  width: 420px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.auth-title {
+  text-align: center;
+  font-size: 34px;
+  color: black;
+  margin-bottom: 20px;
+  text-shadow: 0 4px 18px rgba(0,0,0,0.5);
+}
+
+.auth-box h3 {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.auth-box label {
+  display: block;
+  font-size: 15px;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #444;
+}
+
+.auth-box input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 14px;
+}
+
+.auth-box button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background: #1e73ff;
+  border: none;
+  color: white;
+  font-size: 17px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.auth-box button:hover {
+  opacity: 0.9;
+}
+
+.switch-text {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.switch-text a {
+  color: #1e73ff;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+}

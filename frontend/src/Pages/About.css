@@ -1,0 +1,40 @@
+.about-container {
+  width: 90%;
+  max-width: 900px;
+  margin: 30px auto;
+  text-align: center;
+  font-family: Poppins, sans-serif;
+}
+
+.title {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #2b2b2b;
+}
+
+.about-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom: 40px;
+}
+
+.about-card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.quote-section {
+  background: #3b3b3b;
+  color: white;
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.quote-section blockquote {
+  font-style: italic;
+  opacity: 0.9;
+  margin-bottom: 10px;
+}

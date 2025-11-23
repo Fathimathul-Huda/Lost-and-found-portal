@@ -1,0 +1,101 @@
+/* FULL WIDTH bar */
+.navbar {
+  
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 30px;
+  box-shadow: 0px 2px 10px rgba(0,0,0,0.12);
+  border-radius: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  
+}
+
+/* Group logo + menu left side */
+.left-nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+/* Logo */
+.logo img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+/* Menu links */
+.nav-links {
+  display: flex;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #222;
+  padding: 6px 10px;
+  border-radius: 5px;
+  transition: .3s ease;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  background: #007bff;
+  color: white;
+}
+
+/* Login/Register on right */
+.auth-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  padding: 7px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: .3s;
+  border: 2px solid transparent;
+}
+
+.login {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.login:hover {
+  background: #007bff;
+  color: white;
+}
+
+.register {
+  background: #007bff;
+  color: white;
+}
+
+.register:hover {
+  background: #005ecb;
+}
+
+/* Responsive mobile layout */
+@media (max-width: 850px) {
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .left-nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

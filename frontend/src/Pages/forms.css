@@ -1,0 +1,65 @@
+.page-container {
+  background: url("https://images.unsplash.com/photo-1504280390367-361c6d9f38f4") center/cover no-repeat;
+  width: 100%;
+  height: 100%;
+  padding: 80px 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+.page-title {
+  font-size: 35px;
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+  text-shadow: 0 3px 8px rgba(0,0,0,0.5);
+}
+
+.form-box {
+  background: white;
+  width: 550px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.form-box label {
+  font-weight: 600;
+  display: block;
+  margin-top: 12px;
+  color: #333;
+}
+
+.form-box input,
+.form-box textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  font-size: 15px;
+}
+
+.form-box textarea {
+  height: 120px;
+  resize: none;
+}
+
+.form-box button {
+  width: 100%;
+  background: #1e73ff;
+  border: none;
+  margin-top: 20px;
+  padding: 12px;
+  font-size: 17px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.form-box button:hover {
+  opacity: 0.9;
+}

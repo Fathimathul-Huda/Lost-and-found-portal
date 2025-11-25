@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -23,7 +25,13 @@ export default function Login() {
     if (data.token) {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-      setForm({ email: "", password: "" });
+
+      // Redirect based on role
+      if (data.user.role.toLowerCase()=== "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     }
   };
 
@@ -64,8 +72,9 @@ export default function Login() {
   );
 }
 
+// ---------- SAME DESIGN THEME ----------
 const styles = {
-  ...{ page: {
+  page: {
     minHeight: "100vh",
     backgroundImage: "url('/camp.jpg')",
     backgroundSize: "cover",
@@ -74,7 +83,7 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     padding: "40px",
-  }},
+  },
   card: {
     width: "420px",
     background: "rgba(255,255,255,0.95)",
@@ -83,19 +92,40 @@ const styles = {
     boxShadow: "0px 6px 25px rgba(0,0,0,0.2)",
   },
   title: {
-    textAlign: "center", fontSize: "24px", marginBottom: "20px", fontWeight: "600"
+    textAlign: "center",
+    fontSize: "24px",
+    marginBottom: "20px",
+    fontWeight: "600",
   },
   alert: {
-    background: "#daf0ff", padding: "10px", textAlign: "center", borderRadius: "6px",
-    fontWeight: "bold", marginBottom: "10px", color: "#0366d6",
+    background: "#daf0ff",
+    padding: "10px",
+    textAlign: "center",
+    borderRadius: "6px",
+    fontWeight: "bold",
+    marginBottom: "10px",
+    color: "#0366d6",
   },
-  form: { display: "flex", flexDirection: "column", gap: "12px" },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px",
+  },
   label: { fontWeight: "500" },
   input: {
-    padding: "12px", borderRadius: "8px", border: "1px solid #ccc", fontSize: "15px"
+    padding: "12px",
+    borderRadius: "8px",
+    border: "1px solid #ccc",
+    fontSize: "15px",
   },
   button: {
-    background: "#1A73E8", padding: "14px", borderRadius: "8px", cursor: "pointer",
-    color: "#fff", fontSize: "16px", border: "none", marginTop: "10px"
-  }
+    background: "#1A73E8",
+    padding: "14px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    color: "#fff",
+    fontSize: "16px",
+    border: "none",
+    marginTop: "10px",
+  },
 };

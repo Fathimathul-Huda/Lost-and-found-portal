@@ -3,6 +3,7 @@ import { useState } from "react";
 export default function Register() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -10,18 +11,41 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    const res = await fetch("http://localhost:4000/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    try {
+      const res = await fetch("http://localhost:4000/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    const data = await res.json();
-    setMsg(data.message);
+      const data = await res.json();
+      setMsg(data.message);
 
-    if (res.ok) {
-      setForm({ name: "", email: "", password: "" });
+      if (res.ok) {
+        // Save token & role
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("role", data.role);
+        }
+
+        // Reset form
+        setForm({ name: "", email: "", password: "" });
+
+        // Redirect after 1 sec
+        setTimeout(() => {
+          if (data.role === "Admin") {
+            window.location.href = "/admin-dashboard";
+          } else {
+            window.location.href = "/user-dashboard";
+          }
+        }, 1000);
+      }
+    } catch (error) {
+      setMsg("Something went wrong. Try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,7 +89,9 @@ export default function Register() {
             required
           />
 
-          <button type="submit" style={styles.button}>Register</button>
+          <button type="submit" style={styles.button} disabled={loading}>
+            {loading ? "Registering..." : "Register"}
+          </button>
         </form>
       </div>
     </div>
@@ -92,19 +118,36 @@ const styles = {
     boxShadow: "0px 6px 25px rgba(0,0,0,0.2)",
   },
   title: {
-    textAlign: "center", fontSize: "24px", marginBottom: "20px", fontWeight: "600"
+    textAlign: "center",
+    fontSize: "24px",
+    marginBottom: "20px",
+    fontWeight: "600",
   },
   alert: {
-    background: "#daf0ff", padding: "10px", textAlign: "center", borderRadius: "6px",
-    fontWeight: "bold", marginBottom: "10px", color: "#0366d6",
+    background: "#daf0ff",
+    padding: "10px",
+    textAlign: "center",
+    borderRadius: "6px",
+    fontWeight: "bold",
+    marginBottom: "10px",
+    color: "#0366d6",
   },
   form: { display: "flex", flexDirection: "column", gap: "12px" },
   label: { fontWeight: "500" },
   input: {
-    padding: "12px", borderRadius: "8px", border: "1px solid #ccc", fontSize: "15px"
+    padding: "12px",
+    borderRadius: "8px",
+    border: "1px solid #ccc",
+    fontSize: "15px",
   },
   button: {
-    background: "#1A73E8", padding: "14px", borderRadius: "8px", cursor: "pointer",
-    color: "#fff", fontSize: "16px", border: "none", marginTop: "10px"
-  }
+    background: "#1A73E8",
+    padding: "14px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    color: "#fff",
+    fontSize: "16px",
+    border: "none",
+    marginTop: "10px",
+  },
 };

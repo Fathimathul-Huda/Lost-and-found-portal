@@ -6,44 +6,54 @@ const router = express.Router();
 
 // REGISTER
 router.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
+  try {
+    const { name, email, password } = req.body;
 
-  const exists = await User.findOne({ email });
-  if (exists) return res.status(400).json({ message: "User already exists" });
+    if (email === process.env.ADMIN_EMAIL) {
+      return res.status(403).json({ message: "Admin email cannot be used for registration" });
+    }
 
-  const hash = await bcrypt.hash(password, 10);
-  await User.create({ name, email, password: hash });
+    const exists = await User.findOne({ email });
+    if (exists) return res.status(400).json({ message: "User already exists" });
 
-  res.json({ message: "Registered successfully" });
+    const hash = await bcrypt.hash(password, 10);
+
+    await User.create({ name, email, password: hash, role: "user" });
+
+    res.json({ message: "User Registered Successfully", role: "user" });
+
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 // LOGIN
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
-  if (!user) return res.status(404).json({ message: "User not found" });
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return res.status(400).json({ message: "Incorrect password" });
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) return res.status(401).json({ message: "Invalid password" });
 
-  // Generate Token
-  const token = jwt.sign(
-    { id: user._id, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: "7d" }
-  );
+    const token = jwt.sign(
+      { id: user._id, role: user.role, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
 
-  res.json({
-    message: "Login successful",
-    token,
-    user: {
-      id: user._id,
-      name: user.name,
-      email: user.email,
+    res.json({
+      message: `${user.role === "admin" ? "Admin" : "User"} Login Successful`,
       role: user.role,
-    },
-  });
+      token
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
 });
+
 
 module.exports = router;

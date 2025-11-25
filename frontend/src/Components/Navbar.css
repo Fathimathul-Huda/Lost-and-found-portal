@@ -62,6 +62,20 @@
   transition: .3s;
   border: 2px solid transparent;
 }
+.btn.logout {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: 0.3s;
+}
+
+.btn.logout:hover {
+  background-color: #d93636;
+}
+
 
 .login {
   border-color: #007bff;

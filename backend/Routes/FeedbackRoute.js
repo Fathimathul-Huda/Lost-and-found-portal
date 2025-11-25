@@ -27,8 +27,12 @@ router.get("/all", authMiddleware, async (req, res) => {
     return res.status(403).json({ message: "Admin access only" });
   }
 
-  const feedback = await Feedback.find().sort({ createdAt: -1 });
+  const feedback = await Feedback.find()
+    .sort({ createdAt: -1 })
+    .populate("userId", "name email");
+
   res.json(feedback);
 });
+
 
 module.exports = router;

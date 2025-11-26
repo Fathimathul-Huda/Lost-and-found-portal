@@ -5,8 +5,9 @@ import "./Navbar.css";
 export default function Navbar() {
   const navigate = useNavigate();
 
-  // Get user info from localStorage
-  const user = JSON.parse(localStorage.getItem("user"));
+  // Get user info safely
+  const rawUser = localStorage.getItem("user");
+  const user = rawUser;
 
   // Logout function
   const handleLogout = () => {
@@ -31,7 +32,7 @@ export default function Navbar() {
           <li><Link to="/feedback">Feedback</Link></li>
           <li><Link to="/contactus">Contact Us</Link></li>
 
-          {/* 🔥 Show admin link ONLY if user is admin */}
+          {/* Admin link only if user is admin */}
           {user?.role === "Admin" && (
             <li><Link to="/admin">Admin Panel 👑</Link></li>
           )}
@@ -39,8 +40,6 @@ export default function Navbar() {
       </div>
 
       <div className="auth-buttons">
-        
-        {/* 🔥 Show login/register only if not logged in */}
         {!user && (
           <>
             <Link to="/login" className="btn login">Login</Link>
@@ -48,7 +47,6 @@ export default function Navbar() {
           </>
         )}
 
-        {/* 🔥 Show logout only if logged in */}
         {user && (
           <button onClick={handleLogout} className="btn logout">
             Logout

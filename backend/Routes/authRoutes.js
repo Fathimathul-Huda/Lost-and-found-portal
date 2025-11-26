@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const auth = require("../middleware/authMiddleware");
 const router = express.Router();
 
 // REGISTER
@@ -46,6 +47,7 @@ router.post("/login", async (req, res) => {
 
     res.json({
       message: `${user.role === "admin" ? "Admin" : "User"} Login Successful`,
+      user: user,
       role: user.role,
       token
     });
@@ -54,6 +56,25 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+
+router.post("/claim/:itemId", auth, async (req, res) => {
+  const { message } = req.body;
+  const item = await Item.findById(req.params.itemId);
+
+  if (!item) return res.status(404).json({ message: "Item not found" });
+
+  item.claims.push({
+    userId: req.user.id,
+    name: req.user.name,
+    message,
+    status: "pending"
+  });
+
+  await item.save();
+  res.json({ message: "Claim submitted." });
+});
+
 
 
 module.exports = router;

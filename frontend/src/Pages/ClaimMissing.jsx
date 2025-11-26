@@ -70,10 +70,10 @@ export default function ClaimMissing() {
                   {/* Edit button will be activated later */}
                   <button style={styles.editBtn} disabled> Edit </button>
 
-                  <button
+                  <button>
                     onClick={() => handleDelete(item._id)}
                     style={styles.deleteBtn}
-                  >
+                 
                     Delete
                   </button>
                 </div>

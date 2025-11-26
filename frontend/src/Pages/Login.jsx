@@ -24,10 +24,12 @@ export default function Login() {
 
     if (data.token) {
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("user", data.user);
+      console.log(data);
+      
 
       // Redirect based on role
-      if (data.user.role.toLowerCase()=== "admin") {
+      if (data.role == "Admin") {
         navigate("/admin");
       } else {
         navigate("/");

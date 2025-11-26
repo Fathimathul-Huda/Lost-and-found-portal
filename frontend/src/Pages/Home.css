@@ -7,7 +7,7 @@
 }
 /* HERO */
 .hero-section {
-  background: url("C:\Users\HP\Desktop\LOST AND FOUND\frontend\src\assets\the_lost_portal_by_jezzdg_de2a87o-pre.jpg") center/cover;
+  background: url("../assets/the_lost_portal_by_jezzdg_de2a87o-pre.jpg") center/cover;
   padding: 90px 20px;
   color: white;
   text-shadow: 0 3px 8px rgba(0,0,0,0.5);

@@ -1,5 +1,5 @@
 const express = require("express");
-const authMiddleware = require("../Middleware/authMiddleware");
+const authMiddleware = require("../middleware/authMiddleware");
 const Feedback = require("../models/Feedback");
 const router = express.Router();
 

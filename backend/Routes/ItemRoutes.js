@@ -1,47 +1,68 @@
 const express = require("express");
-const Router = express.Router();
-const multer = require("multer");
-const path = require("path");
+const router = express.Router();
 const Item = require("../models/Item");
-const auth = require("../middleware/auth");
+const auth = require("../middleware/authMiddleware");
 
-// Configure multer storage (files kept in /uploads)
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "..", "uploads"));
-  },
-  filename: function (req, file, cb) {
-    const unique = Date.now() + "-" + Math.round(Math.random() * 1E9);
-    cb(null, unique + path.extname(file.originalname));
+// ---------------------------
+// ADD ITEM (Only logged in users)
+// ---------------------------
+router.post("/", auth, async (req, res) => {
+  try {
+    const newItem = await Item.create({
+      ...req.body,
+      userId: req.user.id
+    });
+
+    res.json(newItem);
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
-const upload = multer({ storage });
-
-// Create item (with multiple images)
-// field name in form-data: "images"
-Router.post("/", auth, upload.array("images", 5), async (req, res) => {
+// ---------------------------
+// GET ALL ITEMS (Public - no token needed)
+// ---------------------------
+router.get("/", async (req, res) => {
   try {
-    const { title, description, location, category, secretHint } = req.body;
-
-    // multer puts files in req.files
-    const images = (req.files || []).map(f => `/uploads/${f.filename}`); // store relative URL
-
-    const newItem = await Item.create({
-      title,
-      description,
-      location,
-      category,
-      images,
-      secretHint,
-      userId: req.user.id,     // from auth middleware
-      status: "pending"
-    });
-
-    res.status(201).json({ message: "Item reported", item: newItem });
+    const items = await Item.find();
+    res.json(items);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json(err);
+  }
+});
+
+// ---------------------------
+// GET ONLY USER ITEMS (Private)
+// ---------------------------
+router.get("/my", auth, async (req, res) => {
+  try {
+    const items = await Item.find({ userId: req.user.id });
+    res.json(items);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// ---------------------------
+// CLAIM ITEM (Only owner can mark as claimed)
+// ---------------------------
+router.put("/:id/claim", auth, async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+
+    if (!item) return res.status(404).json({ message: "Item not found" });
+
+    // Only the item owner can update claim status
+    if (item.userId.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Not allowed" });
+    }
+
+    item.claimed = true;
+    await item.save();
+
+    res.json({ message: "Item marked as claimed", item });
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 

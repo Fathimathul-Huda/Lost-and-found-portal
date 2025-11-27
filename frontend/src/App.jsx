@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './Components/Navbar'
 import Home from './Pages/Home'
 import Aboutus from './Pages/AboutUs'
@@ -9,30 +9,46 @@ import ContactUs from './Pages/ContactUs'
 import Login from './Pages/Login'
 import Register from './Pages/Register'
 import ReportItems from './Pages/ReportItems'
-import AdminMenu from './Pages/Adminmenu'
 import AdminDashboard from './Pages/AdminDashboard'
 import Footer from './Components/Footer'
+import MissingItems from "./Pages/MissingItems";
 
 export default function App() {
-  return (
-    <div>
-      <Router>
-      <Navbar/>
-      <Routes>
-      <Route path='/' element={<Home/>}></Route>
-      <Route path='Aboutus' element={<Aboutus/>}></Route>
-      <Route path='/ReportItem' element={<ReportItems/>}></Route>
-      <Route path='ClaimMissing' element={<ClaimMissing/>}></Route>
-      <Route path='/Feedback' element={<Feedback/>}></Route>
-      <Route path='/Contactus' element={<ContactUs/>}></Route>
-      <Route path='/Login' element={<Login/>}></Route>
-      <Route path='/Register' element={<Register/>}></Route>
-      <Route path="/admin" element={<AdminDashboard />} />
-      <Route path="/admin-menu" element={<AdminMenu />} />
 
+  // Read user safely from localStorage
+  let user = null;
+  try {
+    const stored = localStorage.getItem("user");
+    user = stored ? JSON.parse(stored) : null;
+  } catch {
+    localStorage.removeItem("user");
+  }
+
+  return (
+    <Router>
+      <Navbar />
+      
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/Aboutus" element={<Aboutus />} />
+        <Route path="/ReportItem" element={<ReportItems />} />
+        <Route path="/ClaimMissing" element={<ClaimMissing />} />
+        <Route path="/Feedback" element={<Feedback />} />
+        <Route path="/Contactus" element={<ContactUs />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Register" element={<Register />} />
+        <Route path="/missing-items" element={<MissingItems />} />
+
+        {/* 🔐 Protect Admin Route */}
+        <Route
+          path="/admin"
+          element={
+            user?.role === "admin" ? <AdminDashboard /> : <Navigate to="/" />
+          }
+        />
       </Routes>
-      <Footer/>
-      </Router>
-    </div>
-  )
+
+      <Footer />
+    </Router>
+  );
 }

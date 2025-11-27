@@ -5,11 +5,11 @@ import "./Navbar.css";
 export default function Navbar() {
   const navigate = useNavigate();
 
-  // Get user info safely
+  // Get logged-in user correctly
   const rawUser = localStorage.getItem("user");
-  const user = rawUser;
+  const user = rawUser ? JSON.parse(rawUser) : null;
 
-  // Logout function
+  // Logout
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -29,25 +29,24 @@ export default function Navbar() {
           <li><Link to="/aboutus">About Us</Link></li>
           <li><Link to="/reportitem">Report Items</Link></li>
           <li><Link to="/claimMissing">Claim Missing</Link></li>
+          <li><Link to="/missing-items">Missing Items</Link></li>
           <li><Link to="/feedback">Feedback</Link></li>
           <li><Link to="/contactus">Contact Us</Link></li>
 
-          {/* Admin link only if user is admin */}
-          {user?.role === "Admin" && (
+          {/* Show Admin Panel only for admin users */}
+          {user?.role === "admin" && (
             <li><Link to="/admin">Admin Panel 👑</Link></li>
           )}
         </ul>
       </div>
 
       <div className="auth-buttons">
-        {!user && (
+        {!user ? (
           <>
             <Link to="/login" className="btn login">Login</Link>
             <Link to="/register" className="btn register">Register</Link>
           </>
-        )}
-
-        {user && (
+        ) : (
           <button onClick={handleLogout} className="btn logout">
             Logout
           </button>

@@ -23,13 +23,16 @@ export default function Login() {
     setMsg(data.message);
 
     if (data.token) {
+      // Save token
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", data.user);
-      console.log(data);
-      
+
+      // Save user correctly
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      console.log("Logged in user:", data.user);
 
       // Redirect based on role
-      if (data.role == "Admin") {
+      if (data.user.role === "admin") {
         navigate("/admin");
       } else {
         navigate("/");
@@ -74,7 +77,7 @@ export default function Login() {
   );
 }
 
-// ---------- SAME DESIGN THEME ----------
+// 🔥 Styles object (missing earlier)
 const styles = {
   page: {
     minHeight: "100vh",
@@ -113,7 +116,9 @@ const styles = {
     flexDirection: "column",
     gap: "12px",
   },
-  label: { fontWeight: "500" },
+  label: {
+    fontWeight: "500",
+  },
   input: {
     padding: "12px",
     borderRadius: "8px",

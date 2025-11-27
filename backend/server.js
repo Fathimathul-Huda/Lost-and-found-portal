@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 const path = require("path");
 const express = require("express");
 
-// ❗ FIXED — correct import (no destructuring)
 const User = require("./models/User"); 
 
 dotenv.config();
@@ -14,66 +13,46 @@ app.use(cors());
 app.use(express.json({ limit: "20mb" }));
 app.use(express.urlencoded({ limit: "20mb", extended: true }));
 
-
 const port = 4000;
 
-// 🔐 Auto-create admin if it doesn't exist
 async function createAdminIfNotExists() {
   try {
     const adminEmail = process.env.ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD;
-
-    if (!adminEmail || !adminPassword) {
-      console.log("⚠️ ADMIN_EMAIL or ADMIN_PASSWORD not set in .env");
-      return;
-    }
+    if (!adminEmail || !adminPassword) return;
 
     const existingAdmin = await User.findOne({ email: adminEmail, role: "admin" });
-
-    if (existingAdmin) {
-      console.log("✅ Admin already exists");
-      return;
-    }
+    if (existingAdmin) return;
 
     const hashedPassword = await bcrypt.hash(adminPassword, 10);
-
     await User.create({
       name: "Admin",
       email: adminEmail,
       password: hashedPassword,
       role: "admin",
     });
-
-    console.log("✅ Admin user created with hashed password");
+    console.log("Admin created");
   } catch (err) {
-    console.log("❌ Error creating admin:", err.message);
+    console.log("Admin creation error:", err.message);
   }
 }
 
-// MongoDB connection
-mongoose.connect(process.env.mongourl)
-  .then(() => console.log(" DB connected successfully"))
 mongoose
   .connect(process.env.mongourl)
   .then(async () => {
-    console.log(" DB connected successfully");
+    console.log("DB connected successfully");
     await createAdminIfNotExists();
   })
-  .catch((err) => console.log(" DB connection error:", err));
+  .catch((err) => console.log("DB connection error:", err));
 
-// Import Routes
-const authroutes = require("./Routes/authRoutes");
 
-app.use("/feedback", require("./Routes/FeedbackRoute"));
-
-app.use("/item", require("./Routes/ItemRoutes"));
-app.use("/auth", authroutes); // all auth routes start with /auth
+// Routes
 app.use("/auth", require("./Routes/authRoutes"));
+app.use("/item", require("./Routes/ItemRoutes"));
+app.use("/feedback", require("./Routes/FeedbackRoutes"));
 
-// serve image uploads folder
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // Show uploaded images
 
-// Start server
 app.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);
 });

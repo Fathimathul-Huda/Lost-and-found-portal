@@ -6,7 +6,6 @@ export default function ClaimMissing() {
 
   const token = localStorage.getItem("token");
 
-  // Fetch user's own items
   useEffect(() => {
     const fetchData = async () => {
       if (!token) {
@@ -14,7 +13,7 @@ export default function ClaimMissing() {
         return;
       }
 
-      const res = await fetch("http://localhost:4000/item/myItems", {
+      const res = await fetch("http://localhost:4000/item/my", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -25,10 +24,8 @@ export default function ClaimMissing() {
     fetchData();
   }, [token]);
 
-  // Delete item
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure want to delete?");
-    if (!confirmDelete) return;
+    if (!window.confirm("Are you sure want to delete?")) return;
 
     const res = await fetch(`http://localhost:4000/item/delete/${id}`, {
       method: "DELETE",
@@ -38,7 +35,6 @@ export default function ClaimMissing() {
     const data = await res.json();
     setMessage(data.message);
 
-    // Remove item from screen
     setItems(items.filter((item) => item._id !== id));
   };
 
@@ -56,24 +52,41 @@ export default function ClaimMissing() {
             {items.map((item) => (
               <div key={item._id} style={styles.card}>
                 <h3 style={styles.itemTitle}>{item.title}</h3>
-                
+
+                {/* 🔥 IMAGE DISPLAY ADDED */}
+                {item.image && (
+                  <img
+                    src={`http://localhost:4000/uploads/${item.image}`}
+                    alt="item"
+                    style={{
+                      width: "100%",
+                      height: "230px",
+                      objectFit: "cover",
+                      borderRadius: "10px",
+                      marginBottom: "10px",
+                    }}
+                  />
+                )}
+
                 <p><strong>Description:</strong> {item.description}</p>
                 <p><strong>Location:</strong> {item.location}</p>
                 <p>
                   <strong>Status:</strong>{" "}
-                  <span style={item.status === "Pending" ? styles.pending : styles.approved}>
+                  <span
+                    style={
+                      item.status === "pending" ? styles.pending : styles.approved
+                    }
+                  >
                     {item.status}
                   </span>
                 </p>
 
                 <div style={styles.buttonRow}>
-                  {/* Edit button will be activated later */}
-                  <button style={styles.editBtn} disabled> Edit </button>
-
-                  <button>
+                  <button style={styles.editBtn} disabled>Edit</button>
+                  <button
                     onClick={() => handleDelete(item._id)}
                     style={styles.deleteBtn}
-                 
+                  >
                     Delete
                   </button>
                 </div>
@@ -85,8 +98,6 @@ export default function ClaimMissing() {
     </div>
   );
 }
-
-// ---------------------- STYLES -----------------------
 
 const styles = {
   pageWrapper: {

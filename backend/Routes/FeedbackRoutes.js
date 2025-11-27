@@ -21,18 +21,22 @@ router.post("/submit", authMiddleware, async (req, res) => {
   res.json({ message: "Thank you! Your feedback has been submitted 😊" });
 });
 
-// Fetch feedback (admin only)
+// Fetch feedback (ADMIN ONLY)
 router.get("/all", authMiddleware, async (req, res) => {
-  if (req.user.role !== "Admin") {
-    return res.status(403).json({ message: "Admin access only" });
+  try {
+    // role must be lowercase "admin"
+    if (req.user.role !== "admin") {
+      return res.status(403).json({ message: "Admin access only" });
+    }
+
+    const feedback = await Feedback.find()
+      .sort({ createdAt: -1 })
+      .populate("userId", "name email");
+
+    return res.json(feedback);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
-
-  const feedback = await Feedback.find()
-    .sort({ createdAt: -1 })
-    .populate("userId", "name email");
-
-  res.json(feedback);
 });
-
 
 module.exports = router;

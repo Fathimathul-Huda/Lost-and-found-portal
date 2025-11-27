@@ -7,22 +7,29 @@ export default function ClaimMissing() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (!token) {
-        setMessage("❌ Please login first.");
-        return;
-      }
-
-      const res = await fetch("http://localhost:4000/item/my", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const data = await res.json();
-      setItems(data);
-    };
-
-    fetchData();
+    if (!token) {
+      setMessage("❌ Please login first.");
+      return;
+    }
+    fetchMyItems();
   }, [token]);
+
+  const fetchMyItems = async () => {
+    const res = await fetch("http://localhost:4000/item/my", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const data = await res.json();
+
+    // 🔥 Prevent items.map crash when backend returns error
+    if (!Array.isArray(data)) {
+      setItems([]);
+      setMessage(data.message || "Failed to load items");
+      return;
+    }
+
+    setItems(data);
+  };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure want to delete?")) return;
@@ -35,7 +42,7 @@ export default function ClaimMissing() {
     const data = await res.json();
     setMessage(data.message);
 
-    setItems(items.filter((item) => item._id !== id));
+    fetchMyItems(); // 🔥 refresh after delete
   };
 
   return (
@@ -53,7 +60,6 @@ export default function ClaimMissing() {
               <div key={item._id} style={styles.card}>
                 <h3 style={styles.itemTitle}>{item.title}</h3>
 
-                {/* 🔥 IMAGE DISPLAY ADDED */}
                 {item.image && (
                   <img
                     src={`http://localhost:4000/uploads/${item.image}`}
@@ -70,11 +76,12 @@ export default function ClaimMissing() {
 
                 <p><strong>Description:</strong> {item.description}</p>
                 <p><strong>Location:</strong> {item.location}</p>
+
                 <p>
                   <strong>Status:</strong>{" "}
                   <span
                     style={
-                      item.status === "pending" ? styles.pending : styles.approved
+                      item.status === "Pending" ? styles.pending : styles.approved
                     }
                   >
                     {item.status}

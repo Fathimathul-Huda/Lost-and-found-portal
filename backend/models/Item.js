@@ -8,7 +8,9 @@ const ItemSchema = new mongoose.Schema(
     category: { type: String, enum: ["Lost", "Found"] },
     image: String,
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    status: { type: String, default: "Pending" }
+    status: { type: String, default: "Pending" },
+    secretHint: {type:String}
+
   },
   { timestamps: true }
 );

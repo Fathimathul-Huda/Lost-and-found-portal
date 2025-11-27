@@ -27,7 +27,7 @@ export default function ReportItem() {
 
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:4000/item", {
+      const res = await fetch("http://localhost:4000/item/", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

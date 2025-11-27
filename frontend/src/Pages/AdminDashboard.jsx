@@ -12,15 +12,19 @@ export default function AdminDashboard() {
   }, []);
 
   const getData = async () => {
-    const itemRes = await fetch("http://localhost:4000/item/pending", {
+    // Fetch pending items (reports)
+    const itemRes = await fetch("http://localhost:4000/item/", {
       headers: { Authorization: `Bearer ${token}` },
     });
-    setReports(await itemRes.json());
+    const items = await itemRes.json();
+    setReports(items);
 
+    // Fetch all feedback
     const fbRes = await fetch("http://localhost:4000/feedback/all", {
       headers: { Authorization: `Bearer ${token}` },
     });
-    setFeedback(await fbRes.json());
+    const feedbackList = await fbRes.json();
+    setFeedback(feedbackList);
   };
 
   const approveItem = async (id) => {
@@ -33,6 +37,14 @@ export default function AdminDashboard() {
 
   const rejectItem = async (id) => {
     await fetch(`http://localhost:4000/item/reject/${id}`, {
+      method: "PUT",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    getData();
+  };
+
+  const deleteItem = async (id) => {
+    await fetch(`http://localhost:4000/item/delete/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -42,20 +54,43 @@ export default function AdminDashboard() {
   return (
     <div style={styles.page}>
       <div style={styles.card}>
-        <h2 style={styles.title}>Admin Dashboard 👑</h2>
+        <h2 style={styles.title}>Admin Dashboard</h2>
 
         <div style={styles.tabs}>
-          <button onClick={() => setActiveTab("reports")} style={styles.tabBtn}>Reports</button>
-          <button onClick={() => setActiveTab("feedback")} style={styles.tabBtn}>Feedback</button>
+          <button
+            onClick={() => setActiveTab("reports")}
+            style={activeTab === "reports" ? styles.activeTab : styles.tabBtn}
+          >
+            Reports
+          </button>
+
+          <button
+            onClick={() => setActiveTab("feedback")}
+            style={activeTab === "feedback" ? styles.activeTab : styles.tabBtn}
+          >
+            Feedback
+          </button>
         </div>
 
+        {/* REPORTS TAB */}
         {activeTab === "reports" && (
-          reports.length === 0 ? <p>No pending reports</p> : 
-          reports.map(item => (
+          reports.length === 0 ? <p>No pending reports</p> :
+          reports.map((item) => (
             <div key={item._id} style={styles.entry}>
               <h3>{item.title}</h3>
               <p><strong>Description:</strong> {item.description}</p>
               <p><strong>Location:</strong> {item.location}</p>
+              <p><strong>Category:</strong> {item.category}</p>
+
+              {/* Show image */}
+              {item.image && (
+                <img
+                  src={`http://localhost:4000/uploads/${item.image}`}
+                  alt="item"
+                  style={{ width: "100%", height: "220px", objectFit: "cover", borderRadius: "8px", marginTop: "8px" }}
+                />
+              )}
+
               <p><strong>Submitted By:</strong> {item?.userId?.name} ({item?.userId?.email})</p>
 
               <div style={styles.row}>
@@ -66,9 +101,10 @@ export default function AdminDashboard() {
           ))
         )}
 
+        {/* FEEDBACK TAB */}
         {activeTab === "feedback" && (
           feedback.length === 0 ? <p>No feedback available</p> :
-          feedback.map(fb => (
+          feedback.map((fb) => (
             <div key={fb._id} style={styles.entry}>
               <h3>Feedback</h3>
               <p>{fb.message}</p>
@@ -81,6 +117,7 @@ export default function AdminDashboard() {
   );
 }
 
+// STYLES
 const styles = {
   page: {
     minHeight: "100vh",
@@ -90,8 +127,8 @@ const styles = {
     justifyContent: "center",
   },
   card: {
-    width: "90%",
-    maxWidth: "800px",
+    width: "95%",
+    maxWidth: "850px",
     background: "white",
     padding: "30px",
     borderRadius: "14px",
@@ -102,6 +139,14 @@ const styles = {
   tabBtn: {
     padding: "8px 18px",
     cursor: "pointer",
+    background: "#BDBDBD",
+    color: "white",
+    border: "none",
+    borderRadius: "6px"
+  },
+  activeTab: {
+    padding: "8px 18px",
+    cursor: "pointer",
     background: "#1A73E8",
     color: "white",
     border: "none",
@@ -110,6 +155,7 @@ const styles = {
   entry: {
     borderBottom: "1px solid #ddd",
     padding: "15px 0",
+    marginBottom: "12px"
   },
   row: { display: "flex", gap: "10px", marginTop: "10px" },
   approve: {
@@ -117,6 +163,10 @@ const styles = {
     padding: "8px 16px", borderRadius: "6px"
   },
   reject: {
+    background: "orange", color: "white", border: "none",
+    padding: "8px 16px", borderRadius: "6px"
+  },
+  delete: {
     background: "red", color: "white", border: "none",
     padding: "8px 16px", borderRadius: "6px"
   }

@@ -9,19 +9,18 @@ import ContactUs from './Pages/ContactUs'
 import Login from './Pages/Login'
 import Register from './Pages/Register'
 import ReportItems from './Pages/ReportItems'
-import AdminDashboard from './Pages/AdminDashboard'
+import AdminDashboard from "./Pages/AdminDashboard"
 import Footer from './Components/Footer'
 import MissingItems from "./Pages/MissingItems";
 
 export default function App() {
 
-  // Read user safely from localStorage
   let user = null;
   try {
     const stored = localStorage.getItem("user");
     user = stored ? JSON.parse(stored) : null;
   } catch {
-    localStorage.removeItem("user");
+    return null;
   }
 
   return (

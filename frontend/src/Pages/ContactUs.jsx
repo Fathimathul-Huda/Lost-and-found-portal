@@ -19,8 +19,11 @@ export default function ContactUs() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Backend not required now — just UI.
-    // Later you can connect email or database.
+    if(!token){
+      setResponseMsg("please login first")
+      return;
+    }
+
     setResponseMsg("📩 Thank you! We will get back to you shortly.");
     setForm({ name: "", email: "", subject: "", message: "" });
   };
@@ -28,7 +31,7 @@ export default function ContactUs() {
   return (
     <div style={styles.page}>
       <div style={styles.card}>
-        <h2 style={styles.title}>Contact Us 📞</h2>
+        <h2 style={styles.title}>Contact Us </h2>
 
         {responseMsg && <p style={styles.alert}>{responseMsg}</p>}
 

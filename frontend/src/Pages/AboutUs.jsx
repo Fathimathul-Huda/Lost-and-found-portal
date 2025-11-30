@@ -7,7 +7,7 @@ export default function About() {
       <h1 className="title">About Us</h1>
 
       <div className="about-card">
-        <img src="https://via.placeholder.com/700x350" alt="about" />
+        
         <p>
           Traditional methods of reporting lost items were slow and complicated.
           With our portal, users can easily report, search and claim their lost

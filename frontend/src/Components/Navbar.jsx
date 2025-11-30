@@ -21,7 +21,7 @@ export default function Navbar() {
       
       <div className="left-nav">
         <div className="logo">
-          <img src="/logo.png" alt="Logo" />
+          <img src="/logo.jpg" alt="Logo" />
         </div>
 
         <ul className="nav-links">

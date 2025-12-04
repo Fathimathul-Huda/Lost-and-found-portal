@@ -85,10 +85,11 @@ export default function AdminDashboard() {
               {/* Show image */}
               {item.image && (
                 <img
-                  src={`http://localhost:4000/uploads/${item.image}`}
-                  alt="item"
-                  style={{ width: "100%", height: "220px", objectFit: "cover", borderRadius: "8px", marginTop: "8px" }}
+               src={`http://localhost:4000/uploads/${item.image}`}
+               alt="item"
+             style={styles.image}
                 />
+
               )}
 
               <p><strong>Submitted By:</strong> {item?.userId?.name} ({item?.userId?.email})</p>
@@ -121,53 +122,93 @@ export default function AdminDashboard() {
 const styles = {
   page: {
     minHeight: "100vh",
-    background: "#f3f4f6",
-    padding: "40px",
+    background: "linear-gradient(135deg, #dfe9ff, #f2f8ff)",
+    padding: "50px 20px",
     display: "flex",
     justifyContent: "center",
   },
   card: {
-    width: "95%",
-    maxWidth: "850px",
-    background: "white",
-    padding: "30px",
-    borderRadius: "14px",
-    boxShadow: "0px 4px 15px rgba(0,0,0,0.1)",
+    width: "100%",
+    maxWidth: "900px",
+    background: "#ffffff",
+    padding: "35px",
+    borderRadius: "16px",
+    boxShadow: "0 8px 30px rgba(0,0,0,0.15)",
   },
-  title: { textAlign: "center", marginBottom: "20px" },
-  tabs: { display: "flex", justifyContent: "center", gap: "10px", marginBottom: "20px" },
+  title: {
+    textAlign: "center",
+    marginBottom: "30px",
+    fontSize: "30px",
+    fontWeight: "700",
+    color: "#0f172a",
+  },
+  tabs: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "12px",
+    marginBottom: "28px",
+  },
   tabBtn: {
-    padding: "8px 18px",
-    cursor: "pointer",
-    background: "#BDBDBD",
-    color: "white",
+    padding: "10px 22px",
+    background: "#d1d5db",
+    color: "#000",
+    borderRadius: "8px",
     border: "none",
-    borderRadius: "6px"
+    fontSize: "15px",
+    fontWeight: "600",
+    cursor: "pointer",
+    transition: "0.25s",
   },
   activeTab: {
-    padding: "8px 18px",
-    cursor: "pointer",
-    background: "#1A73E8",
+    padding: "10px 22px",
+    background: "#2563eb",
     color: "white",
+    borderRadius: "8px",
     border: "none",
-    borderRadius: "6px"
+    fontSize: "15px",
+    fontWeight: "600",
+    cursor: "pointer",
+    boxShadow: "0 4px 12px rgba(37,99,235,0.35)",
   },
   entry: {
-    borderBottom: "1px solid #ddd",
-    padding: "15px 0",
-    marginBottom: "12px"
+    background: "#f8fafc",
+    padding: "18px",
+    borderRadius: "14px",
+    marginBottom: "18px",
+    boxShadow: "0 3px 12px rgba(0,0,0,0.1)",
+    transition: "0.25s",
   },
-  row: { display: "flex", gap: "10px", marginTop: "10px" },
+  image: {
+    width: "100%",
+    height: "260px",
+    objectFit: "cover",
+    borderRadius: "12px",
+    margin: "12px 0",
+    boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
+  },
+  row: {
+    display: "flex",
+    gap: "12px",
+    marginTop: "12px",
+  },
   approve: {
-    background: "green", color: "white", border: "none",
-    padding: "8px 16px", borderRadius: "6px"
+    background: "#16a34a",
+    padding: "10px 18px",
+    borderRadius: "8px",
+    border: "none",
+    color: "white",
+    fontWeight: "600",
+    cursor: "pointer",
+    transition: "0.2s",
   },
   reject: {
-    background: "orange", color: "white", border: "none",
-    padding: "8px 16px", borderRadius: "6px"
+    background: "#dc2626",
+    padding: "10px 18px",
+    borderRadius: "8px",
+    border: "none",
+    color: "white",
+    fontWeight: "600",
+    cursor: "pointer",
+    transition: "0.2s",
   },
-  delete: {
-    background: "red", color: "white", border: "none",
-    padding: "8px 16px", borderRadius: "6px"
-  }
 };

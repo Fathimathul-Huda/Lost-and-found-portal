@@ -23,7 +23,7 @@ export default function ReportItem() {
       formData.append("location", location);
       formData.append("category", category);
       formData.append("secretHint", secretHint);
-      formData.append("image", image); // 👈 MUST match upload.single("image")
+      formData.append("image", image);
 
       const token = localStorage.getItem("token");
 
@@ -55,23 +55,66 @@ export default function ReportItem() {
       <h2 style={styles.heading}>Report lost or found item</h2>
 
       <form style={styles.form} onSubmit={handleSubmit}>
-        <input style={styles.input} placeholder="Item Name" value={title} onChange={(e) => setTitle(e.target.value)} required />
-        
-        <textarea style={styles.textarea} placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} required />
-        
-        <input style={styles.input} placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)} />
+        <input
+          style={styles.input}
+          placeholder="Item Name"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
 
-        <select style={styles.select} value={category} onChange={(e) => setCategory(e.target.value)}>
+        <textarea
+          style={styles.textarea}
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
+
+        <input
+          style={styles.input}
+          placeholder="Location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+        />
+
+        <select
+          style={styles.select}
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
           <option>Lost</option>
           <option>Found</option>
         </select>
 
-        <input style={styles.input} placeholder="Secret Hint" value={secretHint} onChange={(e) => setSecretHint(e.target.value)} />
+        <input
+          style={styles.input}
+          placeholder="Secret Hint"
+          value={secretHint}
+          onChange={(e) => setSecretHint(e.target.value)}
+        />
 
         <label style={styles.label}>Upload Photo</label>
-        <input type="file" name="image" accept="image/*" onChange={handleFile} style={styles.fileInput} />
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          onChange={handleFile}
+          style={styles.fileInput}
+        />
 
-        <button style={styles.submitBtn} type="submit">Submit Report</button>
+        {/* 🔥 Image Preview */}
+        {image && (
+          <img
+            src={URL.createObjectURL(image)}
+            alt="preview"
+            style={styles.previewImg}
+          />
+        )}
+
+        <button style={styles.submitBtn} type="submit">
+          Submit Report
+        </button>
       </form>
 
       {message && <p style={styles.message}>{message}</p>}
@@ -80,13 +123,84 @@ export default function ReportItem() {
 }
 
 const styles = {
-  container: { maxWidth: "700px", margin: "20px auto", padding: "20px", background: "#fff", borderRadius: "10px" },
-  heading: { textAlign: "center", marginBottom: "20px", fontSize: "26px" },
-  form: { display: "flex", flexDirection: "column", gap: "15px" },
-  input: { padding: "10px", borderRadius: "5px", border: "1px solid #ccc" },
-  textarea: { padding: "10px", borderRadius: "5px", border: "1px solid #ccc", minHeight: "80px" },
-  select: { padding: "10px", borderRadius: "5px", border: "1px solid #ccc" },
-  fileInput: { padding: "6px" },
-  submitBtn: { padding: "12px", background: "#007bff", color: "white", fontSize: "16px", border: "none", borderRadius: "5px" },
-  message: { marginTop: "15px", textAlign: "center", fontWeight: "bold" },
+  container: {
+    maxWidth: "750px",
+    margin: "30px auto",
+    padding: "25px 30px",
+    background: "#ffffff",
+    borderRadius: "12px",
+    boxShadow: "0 0 25px rgba(0,0,0,0.1)",
+  },
+  heading: {
+    textAlign: "center",
+    marginBottom: "25px",
+    fontSize: "28px",
+    fontWeight: "700",
+    color: "#0f172a",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "18px",
+  },
+  input: {
+    padding: "12px 14px",
+    borderRadius: "8px",
+    border: "1px solid #cfd4dc",
+    fontSize: "16px",
+  },
+  textarea: {
+    padding: "12px 14px",
+    borderRadius: "8px",
+    border: "1px solid #cfd4dc",
+    minHeight: "95px",
+    fontSize: "16px",
+  },
+  select: {
+    padding: "12px 14px",
+    borderRadius: "8px",
+    border: "1px solid #cfd4dc",
+    fontSize: "16px",
+    background: "#fff",
+  },
+  label: {
+    fontWeight: "600",
+    fontSize: "16px",
+    marginTop: "5px",
+    color: "#2b2b2b",
+  },
+  fileInput: {
+    padding: "8px",
+    border: "1px solid #cfd4dc",
+    borderRadius: "8px",
+    background: "#f9fafb",
+  },
+  previewImg: {
+    width: "100%",
+    height: "260px",
+    objectFit: "cover",
+    marginTop: "10px",
+    marginBottom: "10px",
+    borderRadius: "12px",
+    boxShadow: "0 3px 10px rgba(0,0,0,0.25)",
+  },
+  submitBtn: {
+    padding: "14px",
+    background: "#007bff",
+    color: "white",
+    fontSize: "18px",
+    fontWeight: "600",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    marginTop: "10px",
+    transition: "0.3s",
+  },
+  message: {
+    marginTop: "18px",
+    textAlign: "center",
+    fontWeight: "600",
+    fontSize: "16px",
+    color: "#007bff",
+  },
 };

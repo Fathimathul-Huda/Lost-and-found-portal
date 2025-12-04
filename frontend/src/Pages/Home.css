@@ -7,81 +7,108 @@
 }
 /* HERO */
 .hero-section {
-  background: url("../assets/the_lost_portal_by_jezzdg_de2a87o-pre.jpg") center/cover;
+  background:linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),url("../assets/the_lost_portal_by_jezzdg_de2a87o-pre.jpg") center/cover;
   padding: 90px 20px;
   color: white;
   text-shadow: 0 3px 8px rgba(0,0,0,0.5);
 }
 
 .hero-section h1 {
-  font-size: 42px;
-  margin-bottom: 10px;
+  font-size: 54px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
 }
 
 .hero-section p {
-  font-size: 18px;
-  margin-bottom: 25px;
+  font-size: 22px;
+  margin-bottom: 30px;
 }
 
 .search-box {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 15px;
 }
 
 .search-box input {
-  width: 280px;
-  padding: 12px;
-  border-radius: 8px;
+  width: 320px;
+  padding: 14px 16px;
+  border-radius: 10px;
   border: none;
   outline: none;
+  font-size: 16px;
 }
 
 .search-box button {
-  background: #2b6cb0;
+  background: #1c79ff;
   border: none;
-  padding: 12px 20px;
+  padding: 14px 22px;
   color: white;
   font-weight: bold;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: 0.25s;
 }
 
-/* ABOUT SECTION */
+.search-box button:hover {
+  background: #0057e6;
+}
+
+/* ⭐ ABOUT SECTION */
 .about-section {
-  padding: 40px;
-  width: 70%;
-  margin: auto;
-  color: #444;
+  padding: 50px 30px;
+  width: 75%;
+  margin: 40px auto;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  line-height: 1.7;
+  font-size: 18px;
 }
 
-/* CATEGORIES */
+/* 🔥 CATEGORIES */
 .categories {
-  margin-top: 30px;
+  margin-top: 50px;
 }
 
 .category-box {
   display: flex;
   justify-content: center;
-  gap: 25px;
-  padding: 20px;
+  gap: 30px;
+  padding: 25px;
+  flex-wrap: wrap;
 }
 
 .cat-card {
   background: white;
-  padding: 25px;
-  width: 150px;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  font-size: 18px;
+  padding: 28px;
+  width: 170px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  font-size: 20px;
   cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
-/* STEPS SECTION */
+.cat-card:hover {
+  transform: translateY(-6px);
+  background: #e9f2ff;
+}
+
+/* 🔥 HOW IT WORKS SECTION */
 .steps-section {
-  margin-top: 50px;
-  padding: 30px;
-  background: #f7f7f7;
+  margin-top: 60px;
+  padding: 50px 25px;
+  background: #f2f6ff;
+}
+
+.steps-section h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 700;
 }
 
 .steps {
@@ -93,8 +120,26 @@
 
 .step {
   background: white;
-  padding: 20px;
-  width: 120px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 25px 18px;
+  width: 130px;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  font-size: 18px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.step:hover {
+  transform: translateY(-5px);
+  background: #eaf4ff;
+}
+
+/* 🔽 RESPONSIVE */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 38px;
+  }
+  .hero-section p {
+    font-size: 18px;
+  }
 }

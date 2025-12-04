@@ -5,6 +5,7 @@ export default function Feedback() {
     name: "",
     email: "",
     message: "",
+    rating: 0,
   });
 
   const [responseMsg, setResponseMsg] = useState("");
@@ -13,6 +14,10 @@ export default function Feedback() {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleRating = (value) => {
+    setForm({ ...form, rating: value });
   };
 
   const handleSubmit = async (e) => {
@@ -36,7 +41,7 @@ export default function Feedback() {
     setResponseMsg(data.message);
 
     if (res.ok) {
-      setForm({ name: "", email: "", message: "" });
+      setForm({ name: "", email: "", message: "", rating: 0 });
     }
   };
 
@@ -48,7 +53,6 @@ export default function Feedback() {
         {responseMsg && <p style={styles.alert}>{responseMsg}</p>}
 
         <form onSubmit={handleSubmit} style={styles.form}>
-
           <label style={styles.label}>Your Name</label>
           <input
             type="text"
@@ -81,7 +85,24 @@ export default function Feedback() {
             required
           ></textarea>
 
-          <button type="submit" style={styles.button}>Send Message</button>
+          {/* ⭐ Rating Stars */}
+          <label style={styles.label}>Rate Your Experience</label>
+          <div style={styles.ratingBox}>
+            {[1, 2, 3, 4, 5].map((star) => (
+              <span
+                key={star}
+                onClick={() => handleRating(star)}
+                style={{
+                  ...styles.star,
+                  color: form.rating >= star ? "#FFD700" : "#C4C4C4",
+                }}
+              >
+                ★
+              </span>
+            ))}
+          </div>
+
+          <button type="submit" style={styles.button}>Send Feedback</button>
         </form>
       </div>
     </div>
@@ -91,68 +112,85 @@ export default function Feedback() {
 const styles = {
   page: {
     minHeight: "100vh",
-    backgroundImage: "url('/camp.jpg')", // Change if needed
+    backgroundImage: "url('/camp.jpg')",
     backgroundSize: "cover",
     backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    padding: "40px",
+    padding: "40px 20px",
   },
   box: {
     width: "480px",
-    background: "rgba(255,255,255,0.95)",
-    padding: "35px",
-    borderRadius: "15px",
-    boxShadow: "0px 6px 25px rgba(0,0,0,0.2)",
-    backdropFilter: "blur(6px)",
+    background: "rgba(255, 255, 255, 0.92)",
+    padding: "40px 35px",
+    borderRadius: "18px",
+    boxShadow: "0px 8px 30px rgba(0,0,0,0.25)",
+    backdropFilter: "blur(7px)",
   },
   heading: {
     textAlign: "center",
-    marginBottom: "20px",
-    fontSize: "24px",
+    marginBottom: "25px",
+    fontSize: "26px",
+    fontWeight: "700",
+    color: "#1f2937",
+  },
+  alert: {
+    background: "#e6ffe6",
+    color: "#1b6a1f",
+    padding: "12px",
+    borderRadius: "8px",
+    textAlign: "center",
     fontWeight: "600",
+    marginBottom: "14px",
+    fontSize: "14px",
   },
   form: {
     display: "flex",
     flexDirection: "column",
-    gap: "12px",
+    gap: "16px",
   },
   label: {
     fontSize: "15px",
-    fontWeight: "500",
+    fontWeight: "600",
+    color: "#374151",
   },
   input: {
-    padding: "12px",
+    padding: "13px",
     borderRadius: "8px",
-    border: "1px solid #ccc",
+    border: "1px solid #cfd4dc",
     fontSize: "15px",
+    background: "#fafafa",
   },
   textarea: {
-    padding: "12px",
+    padding: "13px",
     borderRadius: "8px",
-    border: "1px solid #ccc",
-    height: "110px",
+    border: "1px solid #cfd4dc",
+    minHeight: "120px",
     resize: "none",
     fontSize: "15px",
+    background: "#fafafa",
+  },
+  ratingBox: {
+    display: "flex",
+    gap: "8px",
+    fontSize: "30px",
+    cursor: "pointer",
+  },
+  star: {
+    transition: "0.2s",
+    cursor: "pointer",
   },
   button: {
-    background: "#1A73E8",
-    color: "white",
+    marginTop: "8px",
     padding: "14px",
-    border: "none",
     borderRadius: "8px",
-    fontSize: "16px",
+    border: "none",
+    fontSize: "17px",
+    fontWeight: "700",
     cursor: "pointer",
-    marginTop: "10px",
-  },
-  alert: {
-    background: "#dff7d8",
-    color: "#1b6a1f",
-    padding: "10px",
-    textAlign: "center",
-    borderRadius: "6px",
-    fontWeight: "bold",
-    marginBottom: "12px",
+    color: "#fff",
+    background: "linear-gradient(135deg, #1A73E8, #0057d9)",
   },
 };

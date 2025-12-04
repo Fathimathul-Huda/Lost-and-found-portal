@@ -62,16 +62,21 @@ export default function ClaimMissing() {
 
                 {item.image && (
                   <img
-                    src={`http://localhost:4000/uploads/${item.image}`}
-                    alt="item"
-                    style={{
-                      width: "100%",
-                      height: "230px",
-                      objectFit: "cover",
-                      borderRadius: "10px",
-                      marginBottom: "10px",
-                    }}
-                  />
+  src={`http://localhost:4000/uploads/${item.image}`}
+  alt="item"
+  style={{
+    image: {
+  width: "100%",
+  height: "300px",     // bigger and uniform image
+  objectFit: "cover",
+  borderRadius: "12px",
+  marginBottom: "15px",
+  boxShadow: "0 3px 10px rgba(0,0,0,0.25)",
+},
+
+  }}
+/>
+
                 )}
 
                 <p><strong>Description:</strong> {item.description}</p>
@@ -110,85 +115,109 @@ const styles = {
   pageWrapper: {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
     minHeight: "100vh",
-    background: "#f3f4f6",
-    padding: "20px",
+    background: "#eef2f5",
+    padding: "30px 20px",
   },
 
   container: {
-    maxWidth: "600px",
-    background: "#fff",
-    padding: "25px",
-    borderRadius: "12px",
+    maxWidth: "800px",
+    background: "#ffffff",
+    padding: "30px",
+    borderRadius: "15px",
     width: "100%",
-    boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.10)",
+    boxShadow: "0px 6px 25px rgba(0, 0, 0, 0.12)",
   },
 
   title: {
     textAlign: "center",
-    marginBottom: "20px",
-    fontSize: "22px",
-    fontWeight: "600",
+    marginBottom: "25px",
+    fontSize: "28px",
+    fontWeight: "700",
+    color: "#0f172a",
   },
 
   message: {
     textAlign: "center",
-    marginBottom: "15px",
+    marginBottom: "18px",
     color: "green",
-    fontWeight: "bold",
+    fontWeight: "600",
+    fontSize: "16px",
   },
 
   list: {
     display: "flex",
     flexDirection: "column",
-    gap: "15px",
+    gap: "20px",
   },
 
   card: {
-    border: "1px solid #ddd",
-    padding: "15px",
-    borderRadius: "8px",
-    background: "#fafafa",
+    padding: "18px",
+    borderRadius: "12px",
+    background: "#f8fafc",
+    border: "1px solid #d9d9d9",
+    display: "flex",
+    flexDirection: "column",
   },
 
   itemTitle: {
-    marginBottom: "8px",
-    fontSize: "18px",
-    fontWeight: "bold",
+    marginBottom: "10px",
+    fontSize: "20px",
+    fontWeight: "700",
+    color: "#1e293b",
+  },
+
+  image: {
+    width: "100%",
+    height: "260px",
+    borderRadius: "12px",
+    objectFit: "cover",
+    marginBottom: "12px",
+    boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.2)",
   },
 
   pending: {
-    color: "orange",
+    color: "#d97706",
     fontWeight: "bold",
+    background: "#fff7e6",
+    padding: "3px 10px",
+    borderRadius: "6px",
   },
 
   approved: {
-    color: "green",
+    color: "#059669",
     fontWeight: "bold",
+    background: "#e7f9f0",
+    padding: "3px 10px",
+    borderRadius: "6px",
   },
 
   buttonRow: {
-    marginTop: "15px",
+    marginTop: "18px",
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
+    gap: "12px",
   },
 
   editBtn: {
-    padding: "8px 14px",
+    padding: "9px 18px",
     borderRadius: "8px",
     border: "none",
     cursor: "not-allowed",
-    background: "#888",
+    background: "#9ca3af",
     color: "#fff",
+    fontWeight: "600",
   },
 
   deleteBtn: {
-    padding: "8px 14px",
+    padding: "9px 18px",
     borderRadius: "8px",
     border: "none",
     cursor: "pointer",
-    background: "#ff4d4d",
+    background: "#dc2626",
     color: "#fff",
+    fontWeight: "600",
+    transition: "0.3s",
   },
 };

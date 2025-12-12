@@ -12,6 +12,9 @@ import ReportItems from './Pages/ReportItems'
 import AdminDashboard from "./Pages/AdminDashboard"
 import Footer from './Components/Footer'
 import MissingItems from "./Pages/MissingItems";
+import Resetpass from "./Pages/Resetpass"
+
+
 
 export default function App() {
 
@@ -37,7 +40,7 @@ export default function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
         <Route path="/missing-items" element={<MissingItems />} />
-
+        <Route path="/Resetpass" element={<Resetpass/>}/>
         {/* 🔐 Protect Admin Route */}
         <Route
           path="/admin"

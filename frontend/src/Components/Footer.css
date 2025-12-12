@@ -1,59 +1,106 @@
 .footer {
-  background-color: #2f3640;
+  background: linear-gradient(135deg, #2f3640, #1e272e);
   color: #dcdcdc;
-  padding: 40px 20px;
-  margin-bottom: 30px;
+  padding: 50px 20px 30px;
   font-family: "Poppins", sans-serif;
+  border-top: 2px solid #444;
 }
 
 .footer-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
-  text-align: center;
+  max-width: 1200px;
+  margin: auto;
+  gap: 40px;
+  text-align: left;
 }
 
 .footer-section {
-  min-width: 200px;
-  margin-bottom: 25px;
+  flex: 1;
+  min-width: 220px;
 }
 
 .footer-section h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 15px;
-  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 18px;
+  position: relative;
 }
 
+.footer-section h3::after {
+  content: "";
+  width: 40px;
+  height: 3px;
+  background: #00aced;
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  border-radius: 5px;
+}
+
+/* Text & Links */
+.footer-section p,
 .footer-section a {
-  display: block;
+  font-size: 15px;
+  margin: 6px 0;
   color: #dcdcdc;
-  text-decoration: none;
-  margin: 5px 0;
   transition: 0.3s ease;
 }
 
+.footer-section a {
+  text-decoration: none;
+  display: inline-block;
+}
+
 .footer-section a:hover {
-  color: #fff;
-  transform: translateX(3px);
+  color: #00aced;
+  transform: translateX(5px);
 }
 
 /* Social Icons */
+.social-icons {
+  margin-top: 10px;
+}
+
 .social-icons i {
-  font-size: 20px;
-  margin: 0 10px;
+  font-size: 22px;
+  margin-right: 15px;
   cursor: pointer;
   transition: 0.3s ease;
 }
 
 .social-icons i:hover {
   color: #00aced;
-  transform: scale(1.1);
+  transform: scale(1.2) rotate(3deg);
 }
 
+/* Footer Bottom */
 .footer-bottom {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 40px;
   font-size: 14px;
-  opacity: 0.7;
+  opacity: 0.75;
+  letter-spacing: 0.5px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .footer-container {
+    text-align: center;
+  }
+
+  .footer-section h3::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .footer-section {
+    text-align: center;
+  }
+
+  .social-icons i {
+    margin: 0 10px;
+  }
 }

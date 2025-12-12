@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -13,6 +13,8 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+   
+
     const res = await fetch("http://localhost:4000/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -23,15 +25,9 @@ export default function Login() {
     setMsg(data.message);
 
     if (data.token) {
-      // Save token
       localStorage.setItem("token", data.token);
-
-      // Save user correctly
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      console.log("Logged in user:", data.user);
-
-      // Redirect based on role
       if (data.user.role === "admin") {
         navigate("/admin");
       } else {
@@ -70,6 +66,12 @@ export default function Login() {
             required
           />
 
+          {/* 🔥 Forgot Password Link */}
+          <Link to="/Resetpass" style={styles.forgotLink}>
+          Forgot Password?
+          </Link>
+
+
           <button type="submit" style={styles.button}>Login</button>
         </form>
       </div>
@@ -77,7 +79,6 @@ export default function Login() {
   );
 }
 
-// 🔥 Styles object (missing earlier)
 const styles = {
   page: {
     minHeight: "100vh",
@@ -125,6 +126,22 @@ const styles = {
     border: "1px solid #ccc",
     fontSize: "15px",
   },
+
+  // 🌟 Forgot Password Style
+  forgotContainer: {
+    textAlign: "right",
+    marginTop: "-8px",
+  },
+  forgotLink: {
+    fontSize: "14px",
+    color: "#1A73E8",
+    textDecoration: "none",
+    fontWeight: "500",
+  },
+  forgotLinkHover: {
+    textDecoration: "underline",
+  },
+
   button: {
     background: "#1A73E8",
     padding: "14px",
